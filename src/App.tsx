@@ -1,23 +1,24 @@
 import './App.css';
+import Grid from '@mui/material/Grid';
+import MultiStakeContainer from './components/MultiStakeContainer';
+import HorsesContainer from './components/HorsesContainer';
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        {/* <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
-    </div>
+      <Grid container spacing={3} margin={5}>
+        <Grid item xs={6}>
+          <div className="left-pane">
+            <HorsesContainer />
+          </div>
+        </Grid>
+        <Grid item xs={6}>
+          <div className="right-pane">
+            <MultiStakeContainer /> 
+          </div>
+        </Grid>
+      </Grid>
   );
 }
 
