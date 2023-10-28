@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from 'axios';
-import horseData from '../horse-data';
 import { Horse } from './HorseCard';
 import HorseCard from './HorseCard';
 
-function HorsesContainer() {
-    const { data, isLoading, error} = useQuery<Horse[]>(['horses'], fetchHorses);
+interface HorsesContainerProps {
+    raceId: string;
+}
+
+function HorsesContainer({ raceId } : HorsesContainerProps) {
+    const { data, isLoading, error} = useQuery<Horse[]>(['horses' + raceId], () => axios.get(`http://localhost:5000/api/horses/${raceId}`).then((Response) => Response.data));
 
     if (isLoading) {
         return <div>Is loading...</div>;
@@ -22,11 +25,6 @@ function HorsesContainer() {
             ))}
         </div>
     )
-}
-
-function fetchHorses() {
-    // return axios.get('https://jsonplaceholder.typicode.com/posts').then((Response) => Response.data);
-    return horseData;
 }
 
 

@@ -7,10 +7,10 @@ import React from 'react';
 
 function App() {
 
-    const [race, chooseRace] = React.useState('');
+    const [raceId, setRaceId] = React.useState('1');
 
-    const handleChange = (event: SelectChangeEvent) => {
-      chooseRace(event.target.value as string);
+    const handleRaceChange = (event: SelectChangeEvent) => {
+      setRaceId(event.target.value as string);
     };
 
     return (
@@ -22,19 +22,18 @@ function App() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={race}
+              value={raceId}
               label="Race"
-              onChange={handleChange}
+              onChange={handleRaceChange}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={1}>Race 1</MenuItem>
+              <MenuItem value={2}>Race 2</MenuItem>
             </Select>
           </FormControl>
         </Box>
         <Grid item xs={6}>
           <div className="left-pane">
-            <HorsesContainer />
+            <HorsesContainer raceId={raceId}/>
           </div>
         </Grid>
         <Grid item xs={4}>

@@ -2,7 +2,8 @@ import { Card, CardContent, CardActions, Checkbox, Typography, Button, Grid, Tex
 
 interface Horse {
     horseId: number;
-    ratio: number;
+    raceId: number;
+    odds: number;
     horseName: string;
     stake: number;
     step: number;
@@ -32,22 +33,20 @@ export function HorseCard({ horse }: HorseProps) {
                 <Grid container spacing={2} key={horse.horseId}>
                     <Grid item xs={2}>
                         <Typography variant="body1">{horse.horseName}</Typography>
-                        <Typography variant="body2">{horse.ratio}</Typography>
+                        <Typography variant="body2">{horse.odds.toFixed(2)}</Typography>
                     </Grid>
                     <Grid item xs={1}>
                         <TextField
                             type="text"
                             label="Stake"
-                            style={{ height: '5px' }}
+                            style={{ height: '4px' }}
                             value={horse.stake} />
                     </Grid>
                     <Grid item xs={0.8}>
                         <TextField
-                            // id="outlined"
-                            // id="standard-number"
                             type="number"
                             label="Step"
-                            style={{ height: '5px' }}
+                            style={{ height: '4px' }}
                             // value={horse.step}
                             // onChange={(e) => doNothing()}
                             InputLabelProps={{
@@ -57,9 +56,10 @@ export function HorseCard({ horse }: HorseProps) {
                     </Grid>
                     <Grid item xs={1}>
                         <TextField
+                            id="standard-basic"
                             type="text"
                             label="Profit"
-                            style={{ height: '5px' }}
+                            style={{ height: '4px' }}
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -73,10 +73,6 @@ export function HorseCard({ horse }: HorseProps) {
                     </Grid>
                     <Grid item xs={1}>
                         <FormControlLabel control={<Checkbox />} label="Multibet" />
-                        {/* <Checkbox
-                checked={horse.isMultiBet}
-                // onChange={() => doNothing()}
-            /> */}
                     </Grid>
                 </Grid>
             </CardContent>
