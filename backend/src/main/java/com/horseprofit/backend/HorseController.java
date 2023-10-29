@@ -1,5 +1,6 @@
 package com.horseprofit.backend;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class HorseController {
     @PostMapping("/bets")
     public void horseBet(@RequestBody List<OrderDTO> orders) {
         horseService.horseBet(orders);
+    }
+
+    @PutMapping("/{raceId}")
+    public Horse  horseUpdate(@PathVariable Long raceId, @Validated @RequestBody Horse horse) {
+        return horseService.horseUpdate(raceId, horse);
     }
 
     @PostMapping("/cashout")

@@ -13,27 +13,23 @@ function MultiStakeContainer() {
         console.log('multiLay');
     }
 
-    return (        
-        <Stack
-            component="form"
-            sx={{
-                '& > :not(style)': { m: 1, width: '20ch' },
-            }}
-            noValidate
-            autoComplete="off"
-        >
-
-            <TextField
-                id="outlined-basic" label="MultiStake" variant="outlined" defaultValue={''}               
-            // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            //   setName(event.target.value);
-            // }}
-            />
-            <Button variant="contained" onClick={multiBack}>Multi Back</Button>
-            <Button variant="contained" onClick={multiLay}>Multi Lay</Button>
-            <Button variant="contained">Cashout</Button>
-            <Button variant="contained">Top 3</Button>
-        </Stack>
+    return (
+        <Grid container spacing={2} md={8}>
+            <Stack direction="row" spacing={2}>
+                <TextField
+                    id="outlined-basic" label="MultiStake" variant="outlined" defaultValue={''}
+                // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                //   setName(event.target.value);
+                // }}
+                />
+                <Button variant="contained" onClick={multiBack}>Multi Back</Button>
+                <Button variant="contained" onClick={multiLay}>Multi Lay</Button>
+            </Stack>
+            <Stack direction="row" spacing={2}>
+                <Button variant="contained">Cashout</Button>
+                <Button variant="contained">Top 3</Button>
+            </Stack>
+        </Grid>
     )
 }
 

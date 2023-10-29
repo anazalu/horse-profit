@@ -1,4 +1,4 @@
-import { Card, CardContent, CardActions, Checkbox, Typography, Button, Grid, TextField, FormControlLabel } from '@mui/material';
+import { Card, CardContent, CardActions, Checkbox, Typography, Button, Grid, TextField, FormControlLabel, Divider } from '@mui/material';
 
 interface Horse {
     horseId: number;
@@ -11,26 +11,23 @@ interface Horse {
     isMultiBet: boolean;
 }
 
-export interface HorseProps {
+export interface HorseCardProps {
     horse: Horse;
+    onBack: (horse: Horse | undefined) => void;
+    onLay: (horse: Horse | undefined) => void;
+    onCheck: (horse: Horse | undefined) => void;
 }
 
 export default HorseCard;
 export type { Horse };
 
-export function HorseCard({ horse }: HorseProps) {
-    const doNothing = () => {
-        console.log('Do nothing.');
-    };
-
-    const multiBet = () => {
-    };
+export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
 
     return (
 
         <Card>
             <CardContent>
-                <Grid container spacing={2} key={horse.horseId}>
+                <Grid container spacing={1} key={horse.horseId}>
                     <Grid item xs={2}>
                         <Typography variant="body1">{horse.horseName}</Typography>
                         <Typography variant="body2">{horse.odds.toFixed(2)}</Typography>
@@ -41,14 +38,15 @@ export function HorseCard({ horse }: HorseProps) {
                             label="Stake"
                             style={{ height: '4px' }}
                             value={horse.stake} />
+                            {/* <input type='number' placeholder='' value={stake} onChange={(e) => setStake(e.target.value)} */}
                     </Grid>
                     <Grid item xs={0.8}>
                         <TextField
                             type="number"
                             label="Step"
                             style={{ height: '4px' }}
-                            // value={horse.step}
-                            // onChange={(e) => doNothing()}
+                            value={horse.step}
+                            // onChange={(e) => setStep()}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -66,13 +64,15 @@ export function HorseCard({ horse }: HorseProps) {
                             value={horse.profit} />
                     </Grid>
                     <Grid item xs={1}>
-                        <Button variant="contained" onClick={() => doNothing()}>Back</Button>
+                        <Button variant="contained" onClick={() => onBack(horse)}>Back</Button>
                     </Grid>
                     <Grid item xs={1}>
-                        <Button variant="contained" onClick={() => doNothing()}>Lay</Button>
+                        <Button variant="contained" onClick={() => onLay(horse)}>Lay</Button>
                     </Grid>
                     <Grid item xs={1}>
-                        <FormControlLabel control={<Checkbox />} label="Multibet" />
+                        <FormControlLabel control={<Checkbox />} label="Multibet" onChange={() => onCheck(horse)} />
+                        {/* <input type='checkbox' checked={multiBet} value={~~multiBet} onChange={(e) => onCheck(e.currentTarget.checked)} /> */}
+
                     </Grid>
                 </Grid>
             </CardContent>

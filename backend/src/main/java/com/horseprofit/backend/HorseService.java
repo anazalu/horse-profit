@@ -2,6 +2,7 @@ package com.horseprofit.backend;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HorseService {
@@ -30,5 +31,17 @@ public class HorseService {
 
     public void moveToTop3() {
         // Implement logic to move horses to the top 3
+    }
+
+    public Horse horseUpdate(long raceId, Horse horse) {
+        Optional<Horse> horseOldOptional = horseRepository.findByRaceIdAndHorseId(raceId, horse.getHorseId());
+        if (horseOldOptional.isPresent()) {
+            Horse horseOld = horseOldOptional.get();
+            horseOld.setStake(horse.getStake());
+            horseOld.setStep(horse.getStep());
+            horseOld.setMultiBet(horse.isMultiBet());
+            return horseRepository.save(horseOld);
+        }
+        return new Horse();
     }
 }

@@ -18,7 +18,7 @@ public class DataLoader implements CommandLineRunner {
             long raceId = (i <= 10) ? 1L : 2L;
             String horseName = "Horse " + i;
             double odds = 1.0 + random.nextDouble();
-            Horse horse = new Horse(raceId, horseName, odds, 0.0, 0, 0.0);
+            Horse horse = new Horse(raceId, horseName, odds, 0.0, 0, 0.0, false);
             horseRepository.save(horse);
         }
     }
