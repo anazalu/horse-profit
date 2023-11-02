@@ -2,8 +2,22 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from "@mui/material/Box";
 import { Grid, Stack } from '@mui/material';
+import { useState } from 'react';
+
+// export interface MultiStakeProps {
+//     onMulti: (order: OrderDTO) => void;
+// }
 
 function MultiStakeContainer() {
+    const [stake, setMultiStake] = useState<number>(0)
+
+    // const onSubmit = (e: any) => {
+    //     e.preventDefault()
+
+    //     if (!multiValue) {
+    //         alert('Please add a task')
+    //         return
+    //     }
 
     const multiBack = () => {
         console.log('multiBack');
@@ -14,13 +28,15 @@ function MultiStakeContainer() {
     }
 
     return (
-        <Grid container spacing={2} md={8}>
+        <Grid container spacing={2} md={8} 
+        // onSubmit={onSubmit}
+        >
             <Stack direction="row" spacing={2}>
                 <TextField
-                    id="outlined-basic" label="MultiStake" variant="outlined" defaultValue={''}
-                // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                //   setName(event.target.value);
-                // }}
+                    id="outlined-basic" label="MultiStake" variant="outlined" 
+                    // value={multiValue} 
+                    defaultValue={''}
+                    // onChange={(e) => setMultiStake(e.target.value)}
                 />
                 <Button variant="contained" onClick={multiBack}>Multi Back</Button>
                 <Button variant="contained" onClick={multiLay}>Multi Lay</Button>

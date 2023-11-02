@@ -20,8 +20,9 @@ public class HorseController {
     }
 
     @PostMapping("/bet")
-    public void horseBet(@RequestBody OrderDTO order) {
+    public OrderDTO horseBet(@RequestBody OrderDTO order) {
         horseService.horseBet(order);
+        return order;
     }
 
     @PostMapping("/bets")
@@ -29,10 +30,10 @@ public class HorseController {
         horseService.horseBet(orders);
     }
 
-    @PutMapping("/{raceId}")
-    public Horse  horseUpdate(@PathVariable Long raceId, @Validated @RequestBody Horse horse) {
-        return horseService.horseUpdate(raceId, horse);
-    }
+    // @PutMapping("/{raceId}")
+    // public Horse  horseUpdate(@PathVariable Long raceId, @Validated @RequestBody Horse horse) {
+    //     return horseService.horseUpdate(raceId, horse);
+    // }
 
     @PostMapping("/cashout")
     public void cashOut(@RequestBody List<Horse> horses) {

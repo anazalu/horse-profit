@@ -18,7 +18,12 @@ public class HorseService {
     }
 
     public void horseBet(OrderDTO order) {
-        // Implement logic to place a bet on a horse based on the order
+        Optional<Horse> horseOldOptional = horseRepository.findByRaceIdAndHorseId(order.getRaceId(), order.getHorseId());
+        if (horseOldOptional.isPresent()) {
+            Horse horseOld = horseOldOptional.get();
+            horseOld.setProfit(order.getStake() * order.getStep());
+            horseRepository.save(horseOld);
+        }
     }
 
     public void horseBet(List<OrderDTO> orders) {
@@ -33,15 +38,15 @@ public class HorseService {
         // Implement logic to move horses to the top 3
     }
 
-    public Horse horseUpdate(long raceId, Horse horse) {
-        Optional<Horse> horseOldOptional = horseRepository.findByRaceIdAndHorseId(raceId, horse.getHorseId());
-        if (horseOldOptional.isPresent()) {
-            Horse horseOld = horseOldOptional.get();
-            horseOld.setStake(horse.getStake());
-            horseOld.setStep(horse.getStep());
-            horseOld.setMultiBet(horse.isMultiBet());
-            return horseRepository.save(horseOld);
-        }
-        return new Horse();
-    }
+    // public Horse horseUpdate(long raceId, Horse horse) {
+    //     Optional<Horse> horseOldOptional = horseRepository.findByRaceIdAndHorseId(raceId, horse.getHorseId());
+    //     if (horseOldOptional.isPresent()) {
+    //         Horse horseOld = horseOldOptional.get();
+    //         horseOld.setStake(horse.getStake());
+    //         horseOld.setStep(horse.getStep());
+    //         horseOld.setMultiBet(horse.isMultiBet());
+    //         return horseRepository.save(horseOld);
+    //     }
+    //     return new Horse();
+    // }
 }
