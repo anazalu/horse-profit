@@ -1,4 +1,4 @@
-import { Card, CardContent, CardActions, Checkbox, Typography, Button, Grid, TextField, FormControlLabel, Divider, Box } from '@mui/material';
+import { Card, CardContent, CardActions, Checkbox, Typography, Button, Grid, TextField, FormControlLabel, Divider, Box, SelectChangeEvent } from '@mui/material';
 import { useState } from 'react';
 
 interface Horse {
@@ -9,10 +9,9 @@ interface Horse {
     stake: number;
     step: number;
     profit: number;
-    isMultiBet: boolean;
 }
 
-interface Order {
+interface Bet {
     raceId: number;
     horseId: number;
     stake: number;
@@ -20,19 +19,25 @@ interface Order {
     betType: string;
 }
 
-export interface HorseCardProps {
+interface HorseCardProps {
     horse: Horse;
-    onBack: (order: Order | undefined) => void;
-    onLay: (order: Order | undefined) => void;
-    // onCheck: (order: Order | undefined) => void;
+    onBack: (bet: Bet | undefined) => void;
+    onLay: (bet: Bet | undefined) => void;
+    onCheck: (horseId: number, isChecked: boolean) => void;
 }
 
 export default HorseCard;
-export type { Horse, Order };
+export type { Horse, Bet };
 
-export function HorseCard({ horse, onBack, onLay }: HorseCardProps) {
-    const [stake, setStake] = useState<number>()
-    const [step, setStep] = useState<number>()
+export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
+    const [stake, setStake] = useState<number>();
+    const [step, setStep] = useState<number>();
+    const [multiBet, setMultiBet] = useState<boolean>(false);
+
+    const handleMultiBet = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setMultiBet(event.target.checked);
+        onCheck(horse.horseId, event.target.checked);
+    };
 
     return (
         <Box sx={{ flexGrow: 2 }} margin="normal" >
@@ -62,35 +67,38 @@ export function HorseCard({ horse, onBack, onLay }: HorseCardProps) {
                 </Grid>
                 <Grid item xs={1}>
                     <Typography variant="body2">Profit: </Typography>
-                    <Typography variant="body2">{horse.profit}</Typography>
+                    <Typography variant="body2">{horse.profit.toFixed(2)}</Typography>
                 </Grid>
                 <Grid item xs={1}>
-                    <Button variant="contained" onClick={() => onBack({
-                        raceId: horse.raceId,
-                        horseId: horse.horseId,
-                        stake: stake || 0,
-                        step: step || 0,
-                        betType: 'back'
-                    })}>Back</Button>
+                    <Button variant="contained" onClick={() => {
+                        onBack({
+                            raceId: horse.raceId,
+                            horseId: horse.horseId,
+                            stake: stake || 0,
+                            step: step || 0,
+                            betType: 'back'
+                        })
+                        setStake(undefined);
+                        setStep(undefined)
+                    }}>Back</Button>
                 </Grid>
                 <Grid item xs={1}>
-                    <Button variant="contained" onClick={() => onLay({
-                        raceId: horse.raceId,
-                        horseId: horse.horseId,
-                        stake: stake || 0,
-                        step: step || 0,
-                        betType: 'lay'
-                    })}>Lay</Button>
+                    <Button variant="contained" onClick={() => {
+                        onLay({
+                            raceId: horse.raceId,
+                            horseId: horse.horseId,
+                            stake: stake || 0,
+                            step: step || 0,
+                            betType: 'lay'
+                        })
+                        setStake(undefined);
+                        setStep(undefined)
+                    }}>Lay</Button>
                 </Grid>
                 <Grid item xs={1}>
-                    <FormControlLabel control={<Checkbox />} label="Multibet"
-                    //  onChange={() => onCheck(horse)} 
-                    />
-                    {/* <input type='checkbox' checked={multiBet} value={~~multiBet} onChange={(e) => onCheck(e.currentTarget.checked)} /> */}
-
+                    <FormControlLabel control={<Checkbox checked={multiBet} onChange={handleMultiBet} />} label="Multibet" />
                 </Grid>
             </Grid>
-
         </Box>
     );
 }

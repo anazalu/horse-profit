@@ -3,7 +3,7 @@ package com.horseprofit.backend;
 import lombok.Data;
 
 @Data
-public class OrderDTO {
+public class BetDTO {
     private Long raceId;
     private Long horseId;
     private double stake;

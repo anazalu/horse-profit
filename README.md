@@ -15,7 +15,7 @@
 }
 ```
 
-### Order
+### Bet
 ```json
 {
   "horseId": 1,
@@ -28,8 +28,8 @@
 ### TradeService methods
 ```
 List<Horse> getAllHorses(raceId);
-void horseBet(Order)
-void horseBet(List<Order>)
+void horseBet(Bet)
+void horseBet(List<Bet>)
 void cashOut(List<Horse>)
 void moveToTop3()
 ```

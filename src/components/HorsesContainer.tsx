@@ -1,52 +1,46 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from 'axios';
-import { Horse, Order } from './HorseCard';
+import { Horse, Bet } from './HorseCard';
 import HorseCard from './HorseCard';
 
 interface HorsesContainerProps {
     raceId: string;
+    onCheck: (horseId: number, isChecked: boolean) => void;
 }
 
 
-function HorsesContainer({ raceId }: HorsesContainerProps) {
+function HorsesContainer({ raceId, onCheck }: HorsesContainerProps) {
     const queryClient = useQueryClient();
-    const { data, isLoading, error } = useQuery<Horse[]>(['horses' + raceId], () => axios.get(`http://localhost:5000/api/horses/${raceId}`).then((response) => response.data));
+    const { data, isLoading, error } = useQuery<Horse[]>(['horses' + raceId], () =>
+        axios.get(`http://localhost:5000/api/horses/${raceId}`)
+            .then((response) => response.data)
+    );
 
-    const betMutation = useMutation((order: Order) => {
-        return axios.post(`http://localhost:5000/api/horses/bet`, order)
+    const betMutation = useMutation((bet: Bet) => {
+        return axios.post(`http://localhost:5000/api/horses/bet`, bet)
             .then((response) => {
                 console.log(response)
-                queryClient.invalidateQueries(['horses' + order.raceId])
+                queryClient.invalidateQueries(['horses' + bet.raceId])
             })
     });
 
-    // // Select horses for MultiBet
-    // const checkHorse = (horse: Horse | undefined) => {
-    //     if (horse) {
-    //         checkHorseMutation.mutate({
-    //             horseId: horse.horseId, raceId: horse.raceId, odds: horse.odds, horseName: horse.horseName,
-    //             stake: horse.stake, step: horse.step, profit: horse.profit, isMultiBet: !horse.isMultiBet
-    //         });
-    //     }
-    // }
-
-    const backBet = (order: Order | undefined) => {
-        if (order) {
-            betMutation.mutate(order)
+    const backBet = (bet: Bet | undefined) => {
+        if (bet) {
+            betMutation.mutate(bet)
             console.log('Back');
         }
     }
 
-    const layBet = (order: Order | undefined) => {
-        if (order) {
-            betMutation.mutate(order)
+    const layBet = (bet: Bet | undefined) => {
+        if (bet) {
+            betMutation.mutate(bet)
             console.log('Lay');
         }
     }
 
-    // const checkHorse = (id: number | undefined) => {
-    //     console.log('Check');
-    // }
+    const handleMultiBet = (horseId: number, isChecked: boolean) => {
+        onCheck(horseId, isChecked);
+    }
 
     if (isLoading) {
         return <div>Is loading...</div>;
@@ -59,7 +53,7 @@ function HorsesContainer({ raceId }: HorsesContainerProps) {
     return (
         <div>
             {data?.map((horse: Horse) => (
-                <HorseCard key={horse.horseId} horse={horse} onBack={backBet} onLay={layBet} />
+                <HorseCard key={horse.horseId} horse={horse} onBack={backBet} onLay={layBet} onCheck={handleMultiBet} />
             ))}
         </div>
     )

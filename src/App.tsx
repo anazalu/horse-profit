@@ -3,15 +3,25 @@ import Grid from '@mui/material/Grid';
 import MultiStakeContainer from './components/MultiStakeContainer';
 import HorsesContainer from './components/HorsesContainer';
 import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 function App() {
-
-  const [raceId, setRaceId] = React.useState('1');
+  const [raceId, setRaceId] = useState('1');
+  const [multiBetSet, setMultiBetSet] = useState(new Set<number>());
 
   const handleRaceChange = (event: SelectChangeEvent) => {
     setRaceId(event.target.value as string);
   };
+
+  const handleMultiBet = (horseId: number, isChecked: boolean) => {
+    const newSet = new Set<number>(multiBetSet);
+    if (isChecked) {
+      newSet.add(horseId);
+    } else {
+      newSet.delete(horseId);
+    }
+    setMultiBetSet(newSet);
+  }
 
   return (
 
@@ -33,12 +43,12 @@ function App() {
       </Box>
       <Grid item xs={6}>
         <div className="left-pane">
-          <HorsesContainer raceId={raceId} />
+          <HorsesContainer raceId={raceId} onCheck={handleMultiBet} />
         </div>
       </Grid>
       <Grid item xs={4}>
         <div className="right-pane">
-          <MultiStakeContainer />
+          <MultiStakeContainer raceId={raceId} multiBetSet={multiBetSet} />
         </div>
       </Grid>
     </Grid>

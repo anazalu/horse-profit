@@ -13,40 +13,34 @@ public class HorseService {
     }
 
     public List<Horse> getAllHorses(Long raceId) {
-        // Implement logic to fetch horses by raceId from the repository
         return horseRepository.findAllByRaceId(raceId);
     }
 
-    public void horseBet(OrderDTO order) {
-        Optional<Horse> horseOldOptional = horseRepository.findByRaceIdAndHorseId(order.getRaceId(), order.getHorseId());
-        if (horseOldOptional.isPresent()) {
-            Horse horseOld = horseOldOptional.get();
-            horseOld.setProfit(order.getStake() * order.getStep());
-            horseRepository.save(horseOld);
+    public void horseBet(BetDTO bet) {
+        Optional<Horse> horseOptional = horseRepository.findByRaceIdAndHorseId(bet.getRaceId(), bet.getHorseId());
+        if (horseOptional.isPresent()) {
+            Horse horse = horseOptional.get();
+            horse.setProfit(bet.getStake() * horse.getOdds()); // calculate a fake profit amount
+            horseRepository.save(horse);
         }
     }
 
-    public void horseBet(List<OrderDTO> orders) {
-        // Implement logic to place multiple bets on horses based on the orders
+    public void horseMultiBet(MultiBetDTO multiBet) {
+        for (Long horseId: multiBet.getHorseIds()) {
+            Optional<Horse> horseOptional = horseRepository.findByRaceIdAndHorseId(multiBet.getRaceId(), horseId);
+            if (horseOptional.isPresent()) {
+                Horse horse = horseOptional.get();
+                horse.setProfit(multiBet.getStake() / multiBet.getHorseIds().size()); // calculate a fake profit amount
+                horseRepository.save(horse);
+            }
+        }
     }
 
     public void cashOut(List<Horse> horses) {
-        // Implement logic to cash out bets on the specified horses
+        // ?
     }
 
     public void moveToTop3() {
-        // Implement logic to move horses to the top 3
+        // ?
     }
-
-    // public Horse horseUpdate(long raceId, Horse horse) {
-    //     Optional<Horse> horseOldOptional = horseRepository.findByRaceIdAndHorseId(raceId, horse.getHorseId());
-    //     if (horseOldOptional.isPresent()) {
-    //         Horse horseOld = horseOldOptional.get();
-    //         horseOld.setStake(horse.getStake());
-    //         horseOld.setStep(horse.getStep());
-    //         horseOld.setMultiBet(horse.isMultiBet());
-    //         return horseRepository.save(horseOld);
-    //     }
-    //     return new Horse();
-    // }
 }

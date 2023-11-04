@@ -22,7 +22,7 @@ public class Horse {
     private double stake;
     private int step;
     private double profit;
-    private boolean isMultiBet;
+    // private boolean isMultiBet;
 
     public Horse(Long raceId, String horseName, double odds, double stake, int step, double profit, boolean isMultiBet) {
         this.raceId = raceId;
@@ -31,6 +31,6 @@ public class Horse {
         this.stake = stake;
         this.step = step;
         this.profit = profit;
-        this.isMultiBet = isMultiBet;
+        // this.isMultiBet = isMultiBet;
     }
 }
