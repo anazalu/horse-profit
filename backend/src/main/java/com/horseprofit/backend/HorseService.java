@@ -20,7 +20,7 @@ public class HorseService {
         Optional<Horse> horseOptional = horseRepository.findByRaceIdAndHorseId(bet.getRaceId(), bet.getHorseId());
         if (horseOptional.isPresent()) {
             Horse horse = horseOptional.get();
-            horse.setProfit(bet.getStake() * horse.getOdds()); // calculate a fake profit amount
+            horse.setProfit(bet.getStake() * horse.getOdds()); // set a fake profit amount
             horseRepository.save(horse);
         }
     }
@@ -30,17 +30,31 @@ public class HorseService {
             Optional<Horse> horseOptional = horseRepository.findByRaceIdAndHorseId(multiBet.getRaceId(), horseId);
             if (horseOptional.isPresent()) {
                 Horse horse = horseOptional.get();
-                horse.setProfit(multiBet.getStake() / multiBet.getHorseIds().size()); // calculate a fake profit amount
+                horse.setProfit(multiBet.getStake() / multiBet.getHorseIds().size()); // set a fake profit amount
                 horseRepository.save(horse);
             }
         }
     }
 
-    public void cashOut(List<Horse> horses) {
-        // ?
+    public void cashOut(Long raceId) {
+        for (long horseId = 1; horseId <= 10; horseId++) {
+            Optional<Horse> horseOptional = horseRepository.findByRaceIdAndHorseId(raceId, horseId);
+            if (horseOptional.isPresent()) {
+                Horse horse = horseOptional.get();
+                horse.setProfit(5.0); // set a fake profit amount
+                horseRepository.save(horse);
+            }
+        }
     }
 
-    public void moveToTop3() {
-        // ?
+    public void moveToTop3(Long raceId) {
+        for (long horseId = 1; horseId <= 3; horseId++) {
+            Optional<Horse> horseOptional = horseRepository.findByRaceIdAndHorseId(raceId, horseId);
+            if (horseOptional.isPresent()) {
+                Horse horse = horseOptional.get();
+                horse.setProfit(10.0); // set a fake profit amount
+                horseRepository.save(horse);
+            }
+        }
     }
 }

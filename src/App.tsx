@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import MultiStakeContainer from './components/MultiStakeContainer';
 import HorsesContainer from './components/HorsesContainer';
 import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function App() {
   const [raceId, setRaceId] = useState('1');

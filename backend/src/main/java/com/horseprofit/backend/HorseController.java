@@ -28,13 +28,13 @@ public class HorseController {
         horseService.horseMultiBet(multiBet);
     }
 
-    @PostMapping("/cashout")
-    public void cashOut(@RequestBody List<Horse> horses) {
-        horseService.cashOut(horses);
+    @PostMapping("/{raceId}/cashout")
+    public void cashOut(@PathVariable Long raceId) {
+        horseService.cashOut(raceId);
     }
 
-    @PostMapping("/moveTop3")
-    public void moveToTop3() {
-        horseService.moveToTop3();
+    @PostMapping("/{raceId}/top3")
+    public void moveToTop3(@PathVariable Long raceId) {
+        horseService.moveToTop3(raceId);
     }
 }

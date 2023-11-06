@@ -1,4 +1,4 @@
-import { Card, CardContent, CardActions, Checkbox, Typography, Button, Grid, TextField, FormControlLabel, Divider, Box, SelectChangeEvent } from '@mui/material';
+import { Checkbox, Typography, Button, Grid, TextField, FormControlLabel, Box } from '@mui/material';
 import { useState } from 'react';
 
 interface Horse {
@@ -30,8 +30,8 @@ export default HorseCard;
 export type { Horse, Bet };
 
 export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
-    const [stake, setStake] = useState<number>();
-    const [step, setStep] = useState<number>();
+    const [stake, setStake] = useState<number>(0);
+    const [step, setStep] = useState<number>(0);
     const [multiBet, setMultiBet] = useState<boolean>(false);
 
     const handleMultiBet = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +40,8 @@ export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
     };
 
     return (
-        <Box sx={{ flexGrow: 2 }} margin="normal" >
-            <Grid container spacing={1} key={horse.horseId}>
+        <Box sx={{ flexGrow: 2 }} margin={1} >
+            <Grid container spacing={1} columnSpacing={1} rowSpacing={1} key={horse.horseId}>
                 <Grid item xs={2}>
                     <Typography variant="body1">{horse.horseName}</Typography>
                     <Typography variant="body2">{horse.odds.toFixed(2)}</Typography>
@@ -50,20 +50,21 @@ export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
                     <TextField
                         type="text"
                         label="Stake"
-                        placeholder=''
+                        size="small"
                         value={stake}
-                        onChange={(e) => setStake(~~e.target.value)} />
+                        onChange={(e) => setStake(~~e.target.value)}
+                        InputLabelProps={{ shrink: true }}
+                    />
                 </Grid>
-                <Grid item xs={0.8}>
+                <Grid item xs={1}>
                     <TextField
                         type="number"
                         label="Step"
+                        size="small"
                         value={step}
                         onChange={(e) => setStep(~~e.target.value)}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="standard" />
+                        InputLabelProps={{ shrink: true }}
+                    />
                 </Grid>
                 <Grid item xs={1}>
                     <Typography variant="body2">Profit: </Typography>
@@ -78,8 +79,8 @@ export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
                             step: step || 0,
                             betType: 'back'
                         })
-                        setStake(undefined);
-                        setStep(undefined)
+                        // setStake(0);
+                        // setStep(0)
                     }}>Back</Button>
                 </Grid>
                 <Grid item xs={1}>
@@ -91,8 +92,8 @@ export function HorseCard({ horse, onBack, onLay, onCheck }: HorseCardProps) {
                             step: step || 0,
                             betType: 'lay'
                         })
-                        setStake(undefined);
-                        setStep(undefined)
+                        // setStake(0);
+                        // setStep(0)
                     }}>Lay</Button>
                 </Grid>
                 <Grid item xs={1}>

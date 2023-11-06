@@ -33,37 +33,38 @@ function MultiStakeContainer({ raceId, multiBetSet }: MultiStakeContainerProps) 
 
 
     const multiBack = () => {
-        multiBetMutation.mutate({ raceId: ~~raceId, stake: multiStake, betType: "back", horseIds: Array.from(multiBetSet) });
+        multiBetMutation.mutate({ raceId: ~~raceId, stake: multiStake || 0, betType: "back", horseIds: Array.from(multiBetSet) });
         console.log(`a stake of ${multiStake} is divided between horses: ${Array.from(multiBetSet)} in a Back bet`);
+        setMultiStake(0);
     }
 
     const multiLay = () => {
-        multiBetMutation.mutate({ raceId: ~~raceId, stake: multiStake, betType: "lay", horseIds: Array.from(multiBetSet) });
+        multiBetMutation.mutate({ raceId: ~~raceId, stake: multiStake || 0, betType: "lay", horseIds: Array.from(multiBetSet) });
         console.log(`a stake of ${multiStake} is divided between horses: ${Array.from(multiBetSet)} in a Lay bet`);
+        setMultiStake(0);
     }
 
     return (
-        <Grid container spacing={2} md={8}>
-            <Stack direction="row" spacing={2}>
+
+        <Box sx={{ width: 500 }}>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
                 <TextField
-                    id="outlined-basic" label="MultiStake" variant="outlined"
+                    id="outlined-basic" label="MultiStake" variant="outlined" size="small"
                     value={multiStake}
-                    defaultValue={''}
                     onChange={(e) => setMultiStake(~~e.target.value)}
+                    InputLabelProps={{ shrink: true }}
                 />
                 <Button variant="contained" onClick={multiBack}>Multi Back</Button>
                 <Button variant="contained" onClick={multiLay}>Multi Lay</Button>
-            </Stack>
-            <Stack direction="row" spacing={2}>
                 <Button variant="contained">Cashout</Button>
                 <Button variant="contained">Top 3</Button>
             </Stack>
-        </Grid>
+        </Box>
     )
 }
 
-function setHorses(updatedHorses: any) {
-    throw new Error("Function not implemented.");
-}
+// function setHorses(updatedHorses: any) {
+//     throw new Error("Function not implemented.");
+// }
 
 export default MultiStakeContainer;
