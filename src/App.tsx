@@ -2,7 +2,7 @@ import './App.css';
 import Grid from '@mui/material/Grid';
 import MultiStakeContainer from './components/MultiStakeContainer';
 import HorsesContainer from './components/HorsesContainer';
-import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Button } from '@mui/material';
 import { useState } from 'react';
 
 function App() {
@@ -23,27 +23,46 @@ function App() {
     setMultiBetSet(newSet);
   }
 
+  const handleClearAll = () => {
+    const newSet = new Set<number>();
+    setMultiBetSet(newSet);
+  }
+
   return (
 
     <Grid container spacing={3} margin={5}>
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Race</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={raceId}
-            label="Race"
-            onChange={handleRaceChange}
-          >
-            <MenuItem value={1}>Race 1</MenuItem>
-            <MenuItem value={2}>Race 2</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <Grid item xs={6}>
+
+
+      <Grid item xs={8}>
         <div className="left-pane">
-          <HorsesContainer raceId={raceId} onCheck={handleMultiBet} />
+          <Grid
+            //  sx={{ minWidth: 120 }}
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Race</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={raceId}
+                  label="Race"
+                  onChange={handleRaceChange}
+                >
+                  <MenuItem value={1}>Race 1</MenuItem>
+                  <MenuItem value={2}>Race 2</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <Button onClick={handleClearAll}>Clear all</Button>
+            </Grid>
+          </Grid>
+
+          <HorsesContainer raceId={raceId} multiBetSet={multiBetSet} onCheck={handleMultiBet} />
         </div>
       </Grid>
       <Grid item xs={4}>

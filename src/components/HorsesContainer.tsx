@@ -5,11 +5,12 @@ import HorseCard from './HorseCard';
 
 interface HorsesContainerProps {
     raceId: string;
+    multiBetSet: Set<number>;
     onCheck: (horseId: number, isChecked: boolean) => void;
 }
 
 
-function HorsesContainer({ raceId, onCheck }: HorsesContainerProps) {
+function HorsesContainer({ raceId, multiBetSet, onCheck }: HorsesContainerProps) {
     const queryClient = useQueryClient();
     const { data, isLoading, error } = useQuery<Horse[]>(['horses' + raceId], () =>
         axios.get(`http://localhost:5000/api/horses/${raceId}`)
@@ -53,7 +54,7 @@ function HorsesContainer({ raceId, onCheck }: HorsesContainerProps) {
     return (
         <div>
             {data?.map((horse: Horse) => (
-                <HorseCard key={horse.horseId} horse={horse} onBack={backBet} onLay={layBet} onCheck={handleMultiBet} />
+                <HorseCard key={horse.horseId} horse={horse} multiBetSet={multiBetSet} onBack={backBet} onLay={layBet} onCheck={handleMultiBet} />
             ))}
         </div>
     )
