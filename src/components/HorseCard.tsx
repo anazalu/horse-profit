@@ -1,6 +1,4 @@
 import { Checkbox, Typography, Button, Grid, TextField, FormControlLabel, Box, IconButton } from '@mui/material';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { useState } from 'react';
 
 interface Horse {

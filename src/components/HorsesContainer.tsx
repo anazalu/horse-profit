@@ -13,28 +13,26 @@ interface HorsesContainerProps {
 function HorsesContainer({ raceId, multiBetSet, onCheck }: HorsesContainerProps) {
     const queryClient = useQueryClient();
     const { data, isLoading, error } = useQuery<Horse[]>(['horses' + raceId], () =>
-        axios.get(`http://localhost:5000/api/horses/${raceId}`)
-            .then((response) => response.data)
+        axios.get(`http://localhost:8080/api/horses/${raceId}`).then((response) => response.data)
     );
 
-    const betMutation = useMutation((bet: Bet) => {
-        return axios.post(`http://localhost:5000/api/horses/bet`, bet)
-            .then((response) => {
-                console.log(response)
-                queryClient.invalidateQueries(['horses' + bet.raceId])
-            })
-    });
+    const betMutation = useMutation((bet: Bet) =>
+        axios.post(`http://localhost:8080/api/horses/bet`, bet).then((response) => {
+            console.log(response);
+            queryClient.invalidateQueries(['horses' + bet.raceId]);
+        })
+    );
 
     const backBet = (bet: Bet | undefined) => {
         if (bet) {
-            betMutation.mutate(bet)
+            betMutation.mutate(bet);
             console.log('Back');
         }
     }
 
     const layBet = (bet: Bet | undefined) => {
         if (bet) {
-            betMutation.mutate(bet)
+            betMutation.mutate(bet);
             console.log('Lay');
         }
     }

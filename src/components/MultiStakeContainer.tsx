@@ -24,7 +24,7 @@ function MultiStakeContainer({ raceId, multiBetSet }: MultiStakeContainerProps) 
     const [multiStake, setMultiStake] = useState<number>(0)
 
     const multiBetMutation = useMutation((multiBet: MultiBet) => {
-        return axios.post(`http://localhost:5000/api/horses/multibet`, multiBet)
+        return axios.post(`http://localhost:8080/api/horses/multibet`, multiBet)
             .then((response) => {
                 console.log(response)
                 queryClient.invalidateQueries(['horses' + multiBet.raceId])
