@@ -15,10 +15,15 @@ import org.testng.annotations.Test;
 
 public class ReactAppSeleniumTest {
     private WebDriver driver;
-    private By firstHorseBy = By.xpath("(//p[contains(@class, 'MuiTypography-body1')])[1]");
     private By selectRaceBy = By.id("demo-simple-select");
-    private By firstHorseStakeBetAmountBy = By.xpath("(//input[@id=':r5:'])[1]");
-    // private By firstHorseStakeButton5By = By.xpath("");
+    private By firstHorseNameBy = By.xpath("(//p[contains(@class, 'MuiTypography-body1')])[1]");
+    private By firstHorseOddsBy = By.xpath("(//p[contains(@class, 'MuiTypography-body2')])[1]");
+    private By firstHorseProfitBy = By.xpath("//*[@id='root']/div/div[1]/div/div[2]/div[1]/div/div[9]/p[2]");
+    private By firstHorseStakeButtonOneBy = By.xpath("//button[text()='1']");
+    private By firstHorseStakeButtonFiveBy = By.xpath("//button[text()='5']");
+    private By firstHorseStakeBackAmountBy = By.xpath("(//input[@id=':r5:'])[1]");
+    private By firstHorseBackButtonBy = By.xpath("(//button[text()='Back'])[1]");
+    // private By secondHorseStakeButton5By = By.xpath("(//button[text()='5'])[2]");
     // private By firstMatchCheckBoxBy = By.xpath("(//input[@id='box'])[1]");
 
     @BeforeClass
@@ -47,7 +52,7 @@ public class ReactAppSeleniumTest {
 
     @Test
     public void testFirstHorseText() {
-        WebElement firstHorseTextElement = driver.findElement(firstHorseBy);
+        WebElement firstHorseTextElement = driver.findElement(firstHorseNameBy);
         String actualFirstHorseText = firstHorseTextElement.getText();
         String expectedFirstHorseText = "Horse 1";
         Assert.assertEquals(actualFirstHorseText, expectedFirstHorseText, "Paragraph text mismatch");
@@ -60,41 +65,80 @@ public class ReactAppSeleniumTest {
         dropdownElement.click();
         WebElement optionElement = driver.findElement(By.xpath("//li[text()='Race 2']"));
         optionElement.click();
-        WebElement secondParaElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseBy));
+        WebElement secondParaElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseNameBy));
         String actualParagraphText = secondParaElement.getText();
         String expectedParagraphText = "Horse 11";
         Assert.assertEquals(actualParagraphText, expectedParagraphText, "Paragraph text mismatch");
         dropdownElement.click();
         optionElement = driver.findElement(By.xpath("//li[text()='Race 1']"));
         optionElement.click();
-        secondParaElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseBy));
+        secondParaElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseNameBy));
         actualParagraphText = secondParaElement.getText();
         expectedParagraphText = "Horse 1";
         Assert.assertEquals(actualParagraphText, expectedParagraphText, "Paragraph text mismatch");
     }
 
     @Test
-    public void testFirstHorseStakeBetValue() {
+    public void testFirstHorseButtonFive() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement firstHorseStakeBetElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBetAmountBy));
-        String stakeValue = firstHorseStakeBetElement.getAttribute("value");
-        Assert.assertEquals(stakeValue, "0", "Values mismatch");
+        WebElement firstHorseStakeBackElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBackAmountBy));
+        String initialStakeValue = firstHorseStakeBackElement.getAttribute("value");
+        Assert.assertEquals(initialStakeValue, "0", "Values mismatch");
+
+        WebElement firstHorsButtonFiveElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeButtonFiveBy));
+        firstHorsButtonFiveElement.click();
+
+        WebElement firstHorseUpdatedStakeBetElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBackAmountBy));
+        String updatedStakeValue = firstHorseUpdatedStakeBetElement.getAttribute("value");
+        Assert.assertEquals(updatedStakeValue, "5", "Values mismatch");
+
+        firstHorseStakeBackElement.sendKeys(Keys.BACK_SPACE);
+        
+        WebElement firstHorseClearedStakeBetElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBackAmountBy));
+        String clearedStakeValue = firstHorseClearedStakeBetElement.getAttribute("value");
+        Assert.assertEquals(clearedStakeValue, "0", "Values mismatch");
     }
-
+    
     // @Test
-    // public void testFirstHorseButton5() {
-    //     WebDriverWait wait = new WebDriverWait(driver, 10);
-    //     WebElement firstHorseStakeBetElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBetAmountBy));
-    //     String initialStakeValue = firstHorseStakeBetElement.getAttribute("value");
-    //     Assert.assertEquals(initialStakeValue, "0", "Values mismatch");
-
-    //     WebElement firstHorsButton5Element = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeButton5By));
-    //     firstHorsButton5Element.click();
-
-    //     WebElement firstHorseUpdatedStakeBetElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBetAmountBy));
-    //     String updatedStakeValue = firstHorseUpdatedStakeBetElement.getAttribute("value");
-    //     Assert.assertEquals(updatedStakeValue, "5", "Values mismatch");
+    // public void testFirstHorseProfit() {
+    //     WebDriverWait wait = new WebDriverWait(driver, 10);        
+    //     WebElement firstHorseProfitElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseProfitBy));
+    //     String firstHorseProfitText = firstHorseProfitElement.getText();
+    //     Assert.assertEquals(firstHorseProfitText, "0.00", "Values mismatch");
     // }
+
+    @Test
+    public void testFirstHorseButtonOneChangeProfit() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        
+        WebElement firstHorseStakeBackElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeBackAmountBy));
+        String initialStakeValue = firstHorseStakeBackElement.getAttribute("value");
+        Assert.assertEquals(initialStakeValue, "0", "Values mismatch");
+        
+        WebElement firstHorseOddsTextElement = driver.findElement(firstHorseOddsBy);
+        String firstHorseOddsText = firstHorseOddsTextElement.getText();
+        
+        WebElement initialFirstHorseProfitTextElement = driver.findElement(firstHorseProfitBy);
+        String initialFirstHorseProfitText = initialFirstHorseProfitTextElement.getText();
+        Assert.assertEquals(initialFirstHorseProfitText, "0.00", "Values mismatch");      
+
+        WebElement firstHorsButtonOneElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseStakeButtonOneBy));
+        firstHorsButtonOneElement.click();
+    
+        WebElement firstHorseBackButtonElement = wait.until(ExpectedConditions.visibilityOfElementLocated(firstHorseBackButtonBy));
+        firstHorseBackButtonElement.click();
+
+        WebElement updatedFirstHorseProfitElement = driver.findElement(firstHorseProfitBy);
+        String updatedFirstHorseProfitText = updatedFirstHorseProfitElement.getText();
+        Assert.assertEquals(updatedFirstHorseProfitText, firstHorseOddsText, "Values mismatch");
+
+        firstHorseStakeBackElement.sendKeys(Keys.BACK_SPACE);
+        firstHorseBackButtonElement.click();
+        
+        WebElement clearedFirstHorseProfitElement = driver.findElement(firstHorseProfitBy);
+        String clearedFirstHorseProfitText = clearedFirstHorseProfitElement.getText();
+        Assert.assertEquals(clearedFirstHorseProfitText, "0.00", "Values mismatch");
+    }
     
     @AfterClass
     public void tearDown() {
